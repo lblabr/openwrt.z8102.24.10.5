@@ -10,7 +10,7 @@
 # See /LICENSE for more information.
 #
 
-name: OpenWrt Builder
+name: OpenWrt Builder ZBT
 
 on:
   repository_dispatch:
@@ -61,6 +61,7 @@ jobs:
     - name: Clone source code
       working-directory: /workdir
       run: |
+        sudo rm -rf /workdir/openwrt
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
