@@ -55,7 +55,7 @@ jobs:
       with:
         path: /workdir
         key: ${{runner.os}}-workdir-hashFiles('**/.config')
-        restore-key: |
+        restore-keys: |
           ${{runner.os}}-workdir
         
     - name: Clone source code
