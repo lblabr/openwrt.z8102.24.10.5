@@ -68,7 +68,14 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone $REPO_URL -b $REPO_BRANCH openwrt
+        if [ -d "/workdir/openwrt" ]; then
+          echo "existiert"
+          cd openwrt
+          git pull
+        else
+          echo "existiert nicht"
+          git clone $REPO_URL -b $REPO_BRANCH openwrt
+        fir
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: Load custom feeds
