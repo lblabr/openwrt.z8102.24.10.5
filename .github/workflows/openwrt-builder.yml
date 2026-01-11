@@ -81,7 +81,7 @@ jobs:
         echo ${{ env.BRANCH_NAME1 }}
         echo ${{ env.BRANCH_NAME2 }}
         if [ -d "/workdir/openwrt" ]; then
-          echo "existiert"
+          touch /workdir/openwrt/exist
           cd openwrt
           git pull
         else
@@ -93,10 +93,16 @@ jobs:
 
     - name: Load custom feeds
       run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-        chmod +x $DIY_P1_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P1_SH
+        if [ -d "/workdir/openwrt/exist" ]; then
+          echo "existiert"
+        else
+          echo "existiert nicht"
+        
+          [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+          chmod +x $DIY_P1_SH
+          cd openwrt
+          $GITHUB_WORKSPACE/$DIY_P1_SH
+        fi
 
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
