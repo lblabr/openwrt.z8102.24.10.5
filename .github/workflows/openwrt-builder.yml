@@ -35,6 +35,7 @@ jobs:
 
     steps:
     - name: set config file
+      run: echo "$BRANCH_NAME2"
       env:
         CONFIG_FILE: .config-${{ env.BRANCH_NAME2 }}
       
