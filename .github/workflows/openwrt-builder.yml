@@ -34,8 +34,9 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-    - name: Set env
-      run: echo ::set-env name=CONFIG_FILE::.config-${{ env.BRANCH_NAME2 }}
+    - name: set config file
+      env:
+        CONFIG_FILE: .config-${{ env.BRANCH_NAME2 }}
       
     - name: Checkout
       uses: actions/checkout@main
