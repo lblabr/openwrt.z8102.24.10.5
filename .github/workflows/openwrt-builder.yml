@@ -52,6 +52,7 @@ jobs:
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
+        CONFIG_FILE: .config-${{ env.BRANCH_NAME2 }}
       run: |
         echo ${{ env.CONFIG_FILE }}
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
@@ -104,6 +105,8 @@ jobs:
       run: cd openwrt && ./scripts/feeds install -a
 
     - name: Load custom configuration
+      env:
+        CONFIG_FILE: .config-${{ env.BRANCH_NAME2 }}
       run: |
         [ -e files ] && mv files openwrt/files
         [ -e ${{ env.CONFIG_FILE }} ] && mv ${{ env.CONFIG_FILE }} openwrt/.config
