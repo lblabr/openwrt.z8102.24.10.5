@@ -75,7 +75,7 @@ jobs:
         else
           echo "existiert nicht"
           git clone $REPO_URL -b $REPO_BRANCH openwrt
-        fir
+        fi
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: Load custom feeds
