@@ -20,7 +20,7 @@ env:
   BRANCH_NAME1: ${{ github.head_ref || github.ref_name }}
   BRANCH_NAME2: ${GITHUB_REF##*/}
   REPO_URL: https://github.com/lblabr/openwrt.openwrt
-  REPO_BRANCH: openwrt-25.12
+  REPO_BRANCH: openwrt-24.10
   FEEDS_CONF: feeds.conf
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
