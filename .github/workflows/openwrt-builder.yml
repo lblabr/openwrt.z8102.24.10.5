@@ -38,7 +38,6 @@ jobs:
       env:
         CONFIG_FILE: .config-${{ env.BRANCH_NAME2 }}
       run: |
-        echo $BRANCH_NAME2
         echo ${{ env.CONFIG_FILE }}
       
     - name: Checkout
