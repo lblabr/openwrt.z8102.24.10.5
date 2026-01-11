@@ -53,7 +53,7 @@ jobs:
         sudo docker image prune --all --force
         sudo -E apt-get -qq update
         sudo -E apt-get -qq remove gcc gcc-11 gcc-11-multilib g++-11-multilib  
-        sudo -E apt-get -qq install gcc-12 
+        sudo -E apt-get -qq install gcc-12 gcc-12-multilib g++-12-multilib
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         gcc --version
