@@ -46,21 +46,26 @@ jobs:
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
-        CONFIG_FILE: .config-${{ env.BRANCH_NAME2 }}
       run: |
         echo ${{ env.CONFIG_FILE }}
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
         sudo docker image prune --all --force
-        sudo -E apt-get -qq update
 
-        sudo -E apt-get -qq remove gcc-11 g++-11 gcc-11-multilib g++-11-multilib  
-        sudo -E apt-get -qq install gcc-12 g++-12 gcc-12-multilib g++-12-multilib autoconf
+    - name: do apt chache
+      uses: actions/checkout@v4
+      uses: awalsh128/cache-apt-pkgs-action@latest
+      with:
+        packages: python3-mako gcc-12 g++-12 gcc-12-multilib g++-12-multilib ack antlr3 autoconf asciidoc automake autopoint binutils bison build-essential bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libfuse-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libpython3-dev libreadline-dev libssl-dev libtool lrzsz mkisofs msmtp ninja-build p7zip p7zip-full patch pkgconf python3 python3-pyelftools python3-setuptools qemu-utils rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
+        version: 1.0
 
+    - name: CleanUp Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+        CONFIG_FILE: .config-${{ env.BRANCH_NAME2 }}
+      run: |
         sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 100
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 100
-
-        sudo -E apt-get -qq install python3-mako ack antlr3 autoconf asciidoc automake autopoint binutils bison bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libfuse-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libpython3-dev libreadline-dev libssl-dev libtool lrzsz mkisofs msmtp ninja-build p7zip p7zip-full patch pkgconf python3 python3-pyelftools python3-setuptools qemu-utils rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
-
+        
         sudo update-alternatives --get-selections
                 
         sudo -E apt-get -qq autoremove --purge
@@ -70,7 +75,7 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
-
+        
     - name: cache workdir
       uses: actions/cache@v5.0.1
       with:
