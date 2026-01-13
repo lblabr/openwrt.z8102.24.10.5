@@ -1907,7 +1907,7 @@ CONFIG_NETJSON_MONITORING_IWINFO=y
 #
 # CONFIG_PACKAGE_librtmp is not set
 # CONFIG_PACKAGE_opencv is not set
-#CONFIG_PACKAGE_opencv_contrib=m
+# CONFIG_PACKAGE_opencv_contrib=m
 # CONFIG_PACKAGE_rtmpdump is not set
 # end of bml
 
