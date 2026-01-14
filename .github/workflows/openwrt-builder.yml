@@ -38,7 +38,7 @@ jobs:
       env:
         CONFIG_FILE: .config-${{ env.BRANCH_NAME2 }}
       run: |
-        echo "CONFIG_FILE=.config-${{ env.BRANCH_NAME2 }}" >> $GITHUB_ENV
+        echo "CONFIG_FILE=${{ env.CONFIG_FILE }}" >> $GITHUB_ENV
         echo ${{ env.CONFIG_FILE }}
         echo "$CONFIG_FILE"
       
