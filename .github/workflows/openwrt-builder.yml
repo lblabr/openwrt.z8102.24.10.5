@@ -47,7 +47,6 @@ jobs:
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
-        CONFIG_FILE: .config-${{ env.BRANCH_NAME2 }}
       run: |
         echo ${{ env.CONFIG_FILE }}
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
@@ -111,6 +110,9 @@ jobs:
           cd openwrt
           $GITHUB_WORKSPACE/$DIY_P1_SH
         fi
+
+        ls /workdir
+        ls $GITHUB_WORKSPACE
         
         grep '^CONFIG_TARGET.*DEVICE.*=y' ./${{ env.CONFIG_FILE }} | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
