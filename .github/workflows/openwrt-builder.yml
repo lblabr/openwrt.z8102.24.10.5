@@ -25,8 +25,8 @@ env:
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: true
-  UPLOAD_FIRMWARE: true
-  UPLOAD_RELEASE: true
+  UPLOAD_FIRMWARE: false
+  UPLOAD_RELEASE: false
   TZ: Europe/Berlin
 
 jobs:
@@ -39,6 +39,10 @@ jobs:
         CONFIG_FILE: .config-${{ env.BRANCH_NAME2 }}
       run: |
         echo ${{ env.CONFIG_FILE }}
+        grep '^CONFIG_TARGET.*DEVICE.*=y' ${{ env.CONFIG_FILE }} | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+        echo "CONFIG_FILE=.config-${{ env.BRANCH_NAME2 }}" >> $GITHUB_ENV
       
     - name: Checkout
       uses: actions/checkout@main
@@ -60,7 +64,6 @@ jobs:
     - name: CleanUp Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
-        CONFIG_FILE: .config-${{ env.BRANCH_NAME2 }}
       run: |
         sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 100
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 100
@@ -87,9 +90,6 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        echo "check openwrt BRANCH_NAME1 BRANCH_NAME2"
-        echo ${{ env.BRANCH_NAME1 }}
-        echo ${{ env.BRANCH_NAME2 }}
         if [ -d "/workdir/openwrt" ]; then
           touch /workdir/openwrt/exist
           cd openwrt
@@ -121,8 +121,6 @@ jobs:
       run: cd openwrt && ./scripts/feeds install -a
 
     - name: Load custom configuration
-      env:
-        CONFIG_FILE: .config-${{ env.BRANCH_NAME2 }}
       run: |
         [ -e files ] && mv files openwrt/files
         [ -e ${{ env.CONFIG_FILE }} ] && mv ${{ env.CONFIG_FILE }} openwrt/.config
@@ -152,7 +150,9 @@ jobs:
 
     - name: Check space usage
       if: (!cancelled())
-      run: df -hT
+      run: |
+        df -hT
+        find openwrt/bin/targets
 
     - name: Upload bin directory
       uses: actions/upload-artifact@main

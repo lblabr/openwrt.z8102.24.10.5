@@ -498,8 +498,7 @@ CONFIG_GCC_VERSION="14.3.0"
 CONFIG_GCC_USE_DEFAULT_VERSION=y
 CONFIG_LIBC="musl"
 CONFIG_TARGET_SUFFIX="muslgnueabi"
-CONFIG_IB=y
-CONFIG_IB_STANDALONE=y
+# CONFIG_IB is not set
 CONFIG_SDK=y
 CONFIG_MAKE_TOOLCHAIN=y
 # CONFIG_IMAGEOPT is not set
@@ -1902,6 +1901,15 @@ CONFIG_NETJSON_MONITORING_IWINFO=y
 # CONFIG_PACKAGE_sudo is not set
 # CONFIG_PACKAGE_syslog-ng is not set
 # end of Administration
+
+#
+# bml
+#
+# CONFIG_PACKAGE_librtmp is not set
+# CONFIG_PACKAGE_opencv is not set
+# CONFIG_PACKAGE_opencv_contrib=m
+# CONFIG_PACKAGE_rtmpdump is not set
+# end of bml
 
 #
 # Boot Loaders
