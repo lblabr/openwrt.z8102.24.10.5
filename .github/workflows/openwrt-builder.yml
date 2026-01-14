@@ -121,8 +121,6 @@ jobs:
       run: cd openwrt && ./scripts/feeds install -a
 
     - name: Load custom configuration
-      env:
-        CONFIG_FILE: .config-${{ env.BRANCH_NAME2 }}
       run: |
         [ -e files ] && mv files openwrt/files
         [ -e ${{ env.CONFIG_FILE }} ] && mv ${{ env.CONFIG_FILE }} openwrt/.config
